@@ -35,12 +35,13 @@ export class TDengineSuperTableService {
    * 删除超级表
    * @param database 数据库名称
    * @param name 超级表名称
-   * @param ifExists 是否仅在超级表存在的情况下执行删除，默认为：是
+   * @param ifExists 是否仅在超级表存在的情况下执行删除，默认为：否
    * @returns 超级表删除结果
    */
   @TDengineErrorWrapper()
-  async delete(database: string, name: string, ifExists = true): Promise<DeleteSuperTableResponse> {
-    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', `DROP STABLE ${ifExists ? 'IF EXISTS' : ''} ${database}.${name}`).toPromise();
+  async delete(database: string, name: string, ifExists = false): Promise<DeleteSuperTableResponse> {
+    const sql = `DROP STABLE ${ifExists ? 'IF EXISTS' : ''} ${database}.${name}`;
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', sql).toPromise();
 
     return { success: data.status === TDengineResStatus.Success };
   }

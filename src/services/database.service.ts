@@ -15,11 +15,13 @@ export class TDengineDatabaseService {
    * 创建TDengine数据库
    * @param database 数据库名称
    * @param keep 数据保留时间，单位：天，默认：10年
+   * @param ifNotExists 是否仅不存在的时候创建，默认为：否
    * @returns 创建结果
    */
   @TDengineErrorWrapper()
-  async create(database: string, keep = 365 * 10): Promise<CreateDatabaseResponse> {
-    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', `CREATE DATABASE ${database} KEEP ${keep}`).toPromise();
+  async create(database: string, keep = 365 * 10, ifNotExists = false): Promise<CreateDatabaseResponse> {
+    const sql = `CREATE DATABASE ${ifNotExists ? 'IF NOT EXISTS' : ''} ${database} KEEP ${keep}`;
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', sql).toPromise();
 
     return { success: data.status === TDengineResStatus.Success };
   }
@@ -27,11 +29,13 @@ export class TDengineDatabaseService {
   /**
    * 删除TDengine数据库
    * @param database 数据库名称
+   * @param ifExists 是否仅存在的时候删除，默认为：否
    * @returns 删除结果
    */
   @TDengineErrorWrapper()
-  async delete(database: string): Promise<DeleteDatabaseResponse> {
-    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', `DROP DATABASE ${database}`).toPromise();
+  async delete(database: string, ifExists = false): Promise<DeleteDatabaseResponse> {
+    const sql = `DROP DATABASE ${ifExists ? 'IF EXISTS' : ''} ${database}`;
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', sql).toPromise();
 
     return { success: data.status === TDengineResStatus.Success };
   }

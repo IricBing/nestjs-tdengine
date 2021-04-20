@@ -37,9 +37,14 @@ describe('TDengineDatabaseService (async)', () => {
     const dbname = 'testdb_' + Date.now();
     const { success } = await databaseService.create(dbname, 365);
     expect(success).toBe(true);
+
     const { success: success1, error } = await databaseService.create(dbname, 365);
     expect(success1).toBe(false);
     expect(error).toEqual('Database already exists');
+
+    const { success: success2 } = await databaseService.create(dbname, 365, true);
+    expect(success2).toBe(true);
+
     await databaseService.delete(dbname);
   });
 
@@ -48,6 +53,13 @@ describe('TDengineDatabaseService (async)', () => {
     await databaseService.create(dbname, 365);
     const { success } = await databaseService.delete(dbname);
     expect(success).toBe(true);
+
+    const { success: success2, error } = await databaseService.delete(dbname);
+    expect(success2).toBe(false);
+    expect(error).toEqual('Invalid database name');
+
+    const { success: success3 } = await databaseService.delete(dbname, true);
+    expect(success3).toBe(true);
   });
 
   it('获取所有数据库', async () => {

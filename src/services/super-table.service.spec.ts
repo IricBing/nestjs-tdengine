@@ -48,7 +48,8 @@ describe('TDengineSuperTableService (async)', () => {
       ['status', 'BINARY(32)'],
       ['change_flag', 'BINARY(32)'],
       ['rf125k', 'TINYINT'],
-      ['rf24g', 'TINYINT']
+      ['rf24g', 'TINYINT'],
+      ['center_sn', 'BINARY(32)']
     ];
     const tags = [['sn', 'BINARY(4)']];
     const { success } = await superTableService.create(database, stableName, fieldList, tags);
@@ -68,5 +69,14 @@ describe('TDengineSuperTableService (async)', () => {
   it('删除存在的超级表', async () => {
     const { success } = await superTableService.delete(database, stableName);
     expect(success).toBe(true);
+
+    const { success: success1, error } = await superTableService.delete(database, stableName);
+    expect(success1).toBe(false);
+    expect(error).toBe('Table does not exist');
+
+    // TODO: 此处应该是TDengine的bug，在传入：ifExists = true的时候不应该报：Table does not exist错误
+    // const { success: success2, error: error1 } = await superTableService.delete(database, stableName, true);
+    // console.log(error1);
+    // expect(success2).toBe(true);
   });
 });
