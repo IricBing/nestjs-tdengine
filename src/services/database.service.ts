@@ -2,11 +2,14 @@ import { HttpService, Injectable } from '@nestjs/common';
 import { TDengineResStatus } from '../constants/tdengine.constant';
 import { TDengineErrorWrapper } from '../decorators/error-wrapper.decorator';
 import { CreateDatabaseResponse } from '../interfaces/response/database/create-database.response.interface';
+import { DeleteDatabaseResponse } from '../interfaces/response/database/delete-database.response.interface';
 import { GetAllDatabaseResponse } from '../interfaces/response/database/get-all-database.response.interface';
+import { TDengineRestfulResponse } from '../interfaces/response/tdengine-restful.response.interface';
+import { DatabaseUtil } from '../utils/database.util';
 
 @Injectable()
 export class TDengineDatabaseService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService, private readonly databaseUtil: DatabaseUtil) {}
 
   /**
    * 创建TDengine数据库
@@ -27,8 +30,8 @@ export class TDengineDatabaseService {
    * @returns 删除结果
    */
   @TDengineErrorWrapper()
-  async delete(database: string) {
-    const { data } = await this.httpService.post('/rest/sql', `DROP DATABASES ${database}`).toPromise();
+  async delete(database: string): Promise<DeleteDatabaseResponse> {
+    const { data } = await this.httpService.post('/rest/sql', `DROP DATABASE ${database}`).toPromise();
 
     return { success: data.status === TDengineResStatus.Success };
   }
@@ -39,8 +42,10 @@ export class TDengineDatabaseService {
    */
   @TDengineErrorWrapper()
   async getAll(): Promise<GetAllDatabaseResponse> {
-    const { data } = await this.httpService.post('/rest/sql', `SHOW DATABASES`).toPromise();
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', `SHOW DATABASES`).toPromise();
 
-    return { success: data.status === TDengineResStatus.Success };
+    const databaseList = this.databaseUtil.resolveDatabaseInfoList(data);
+
+    return { success: data.status === TDengineResStatus.Success, data: databaseList };
   }
 }

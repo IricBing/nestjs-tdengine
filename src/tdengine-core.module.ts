@@ -2,6 +2,7 @@ import { DynamicModule, Global, HttpModule, Module, Provider } from '@nestjs/com
 import { OPTIONS_PROVIDER } from './constants/common.constant';
 import { TDengineModuleAsyncOptions, TDengineModuleOptions, TDengineOptionsFactory } from './interfaces/options.interface';
 import { TDengineDatabaseService } from './services/database.service';
+import { DatabaseUtil } from './utils/database.util';
 import { IricUtil } from './utils/iric.util';
 
 @Global()
@@ -24,7 +25,7 @@ export class TDengineCoreModule {
           }
         })
       ],
-      providers: [TDengineDatabaseService, IricUtil, { provide: OPTIONS_PROVIDER, useValue: options }],
+      providers: [TDengineDatabaseService, IricUtil, DatabaseUtil, { provide: OPTIONS_PROVIDER, useValue: options }],
       exports: [TDengineDatabaseService]
     };
   }
@@ -51,7 +52,7 @@ export class TDengineCoreModule {
           inject: [OPTIONS_PROVIDER]
         })
       ],
-      providers: [...asyncProviders, TDengineDatabaseService, IricUtil],
+      providers: [...asyncProviders, TDengineDatabaseService, IricUtil, DatabaseUtil],
       exports: [OPTIONS_PROVIDER, TDengineDatabaseService]
     };
   }

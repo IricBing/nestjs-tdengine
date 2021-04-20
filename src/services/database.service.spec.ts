@@ -40,12 +40,25 @@ describe('TDengineDatabaseService (async)', () => {
     const { success: success1, error } = await databaseService.create(dbname, 365);
     expect(success1).toBe(false);
     expect(error).toEqual('Database already exists');
+    await databaseService.delete(dbname);
   });
 
-  it('获取所有数据库并删除', async () => {
-    const result = await databaseService.getAll();
-    // for (const iterator of object) {
+  it('删除数据库', async () => {
+    const dbname = 'testdb_' + Date.now();
+    await databaseService.create(dbname, 365);
+    const { success } = await databaseService.delete(dbname);
+    expect(success).toBe(true);
+  });
 
-    // }
+  it('获取所有数据库', async () => {
+    await databaseService.create('testdb_' + Date.now() + 1, 365);
+    await databaseService.create('testdb_' + Date.now() + 2, 365);
+    const { success, data: databaseList } = await databaseService.getAll();
+    expect(success).toBe(true);
+    expect(databaseList.length).toBeGreaterThanOrEqual(2);
+    for (const database of databaseList) {
+      const { success } = await databaseService.delete(database.name);
+      expect(success).toBe(true);
+    }
   });
 });
