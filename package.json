@@ -13,6 +13,7 @@
   "keywords": [
     "nestjs",
     "TDengine",
+    "tdengine",
     "typescript"
   ],
   "scripts": {
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
     "@nestjs/common": "^7.6.15",
+    "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/schematics": "^7.3.0",
