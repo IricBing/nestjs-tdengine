@@ -51,14 +51,14 @@ describe('TDengineDatabaseService (async)', () => {
   });
 
   it('获取所有数据库', async () => {
-    await databaseService.create('testdb_' + Date.now() + 1, 365);
-    await databaseService.create('testdb_' + Date.now() + 2, 365);
+    const db1 = 'testdb_' + Date.now() + 1;
+    const db2 = 'testdb_' + Date.now() + 2;
+    await databaseService.create(db1, 365);
+    await databaseService.create(db2, 365);
     const { success, data: databaseList } = await databaseService.getAll();
     expect(success).toBe(true);
     expect(databaseList.length).toBeGreaterThanOrEqual(2);
-    for (const database of databaseList) {
-      const { success } = await databaseService.delete(database.name);
-      expect(success).toBe(true);
-    }
+    await databaseService.delete(db1);
+    await databaseService.delete(db2);
   });
 });

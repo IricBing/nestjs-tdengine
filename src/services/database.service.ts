@@ -19,7 +19,7 @@ export class TDengineDatabaseService {
    */
   @TDengineErrorWrapper()
   async create(database: string, keep = 365 * 10): Promise<CreateDatabaseResponse> {
-    const { data } = await this.httpService.post('/rest/sql', `CREATE DATABASE ${database} KEEP ${keep}`).toPromise();
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', `CREATE DATABASE ${database} KEEP ${keep}`).toPromise();
 
     return { success: data.status === TDengineResStatus.Success };
   }
@@ -31,7 +31,7 @@ export class TDengineDatabaseService {
    */
   @TDengineErrorWrapper()
   async delete(database: string): Promise<DeleteDatabaseResponse> {
-    const { data } = await this.httpService.post('/rest/sql', `DROP DATABASE ${database}`).toPromise();
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', `DROP DATABASE ${database}`).toPromise();
 
     return { success: data.status === TDengineResStatus.Success };
   }

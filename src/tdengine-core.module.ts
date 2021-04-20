@@ -2,8 +2,13 @@ import { DynamicModule, Global, HttpModule, Module, Provider } from '@nestjs/com
 import { OPTIONS_PROVIDER } from './constants/common.constant';
 import { TDengineModuleAsyncOptions, TDengineModuleOptions, TDengineOptionsFactory } from './interfaces/options.interface';
 import { TDengineDatabaseService } from './services/database.service';
+import { TDengineInsertService } from './services/insert.service';
+import { TDengineQueryService } from './services/query.service';
+import { TDengineSuperTableService } from './services/super-table.service';
 import { DatabaseUtil } from './utils/database.util';
+import { FormatUtil } from './utils/format.util';
 import { IricUtil } from './utils/iric.util';
+import { QueryUtil } from './utils/query.util';
 
 @Global()
 @Module({})
@@ -25,8 +30,18 @@ export class TDengineCoreModule {
           }
         })
       ],
-      providers: [TDengineDatabaseService, IricUtil, DatabaseUtil, { provide: OPTIONS_PROVIDER, useValue: options }],
-      exports: [TDengineDatabaseService]
+      providers: [
+        TDengineDatabaseService,
+        TDengineSuperTableService,
+        TDengineQueryService,
+        TDengineInsertService,
+        IricUtil,
+        DatabaseUtil,
+        QueryUtil,
+        FormatUtil,
+        { provide: OPTIONS_PROVIDER, useValue: options }
+      ],
+      exports: [TDengineDatabaseService, TDengineSuperTableService, TDengineQueryService, TDengineInsertService]
     };
   }
 
@@ -52,8 +67,8 @@ export class TDengineCoreModule {
           inject: [OPTIONS_PROVIDER]
         })
       ],
-      providers: [...asyncProviders, TDengineDatabaseService, IricUtil, DatabaseUtil],
-      exports: [OPTIONS_PROVIDER, TDengineDatabaseService]
+      providers: [...asyncProviders, TDengineDatabaseService, TDengineSuperTableService, TDengineQueryService, TDengineInsertService, IricUtil, DatabaseUtil, QueryUtil, FormatUtil],
+      exports: [OPTIONS_PROVIDER, TDengineDatabaseService, TDengineSuperTableService, TDengineQueryService, TDengineInsertService]
     };
   }
 
