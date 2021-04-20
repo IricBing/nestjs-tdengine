@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JSValueType, SQLValueType } from '../types';
 
 @Injectable()
 export class IricUtil {
@@ -8,5 +9,15 @@ export class IricUtil {
    */
   parseError(error: any): string {
     return typeof error === 'string' || error instanceof String ? `${error}` : JSON.stringify(error) === '{}' ? error.toString() : JSON.stringify(error);
+  }
+
+  /**
+   * 将JS值转换为SQL值
+   * @param value JS 值类型
+   * @returns SQL值类型
+   */
+  convertJSValue(value: JSValueType): SQLValueType {
+    if (value === null || value === undefined) return 'null';
+    return typeof value === 'string' ? `'${value}'` : value;
   }
 }

@@ -57,7 +57,8 @@ describe('TDengineInsertService (async)', () => {
   const stableName = 'stable_' + Date.now();
 
   it('基于超级表自动建表插入模式', async () => {
-    const { success, data } = await insertService.insertWithSuperTable(database, stableName, 'location_sn_5532', ['5532'], [uuid(), '3456', uuid(), 'outRegion', 'enter', 23, 80]);
+    const { success, data, error } = await insertService.insertWithSuperTable(database, stableName, 'location_sn_5532', ['5532'], [uuid(), '3456', null, 'outRegion', 'enter', 23, 80]);
+
     expect(success).toBe(true);
     expect(data.rows).toBe(1);
   });
