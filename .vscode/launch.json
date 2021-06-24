@@ -1,35 +1,37 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Jest All",
-        "program": "${workspaceFolder}/node_modules/.bin/jest",
-        "args": [
-          "--runInBand"
-        ],
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen",
-        "disableOptimisticBPs": true,
-        "windows": {
-          "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-        }
-      },
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Jest Current File",
-        "program": "${workspaceFolder}/node_modules/.bin/jest",
-        "args": [
-          "${fileBasenameNoExtension}"
-        ],
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen",
-        "disableOptimisticBPs": true,
-        "windows": {
-          "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-        }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest All",
+      "runtimeVersion": "14.16.0", // 这里要按照项目的 .nvmrc文件进行修改！
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       }
-    ]
-  }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest Current File",
+      "runtimeVersion": "14.16.0", // 这里要按照项目的 .nvmrc文件进行修改！
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "/${fileBasenameNoExtension}"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+      }
+    }
+  ]
+}

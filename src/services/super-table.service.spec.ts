@@ -74,9 +74,7 @@ describe('TDengineSuperTableService (async)', () => {
     expect(success1).toBe(false);
     expect(error).toBe('Table does not exist');
 
-    // TODO: 此处应该是TDengine的bug，在传入：ifExists = true的时候不应该报：Table does not exist错误
-    // const { success: success2, error: error1 } = await superTableService.delete(database, stableName, true);
-    // console.log(error1);
-    // expect(success2).toBe(true);
+    const { success: success2 } = await superTableService.delete(database, stableName, true);
+    expect(success2).toBe(true);
   });
 });

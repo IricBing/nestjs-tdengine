@@ -5,6 +5,7 @@ import { TDengineDatabaseService } from './services/database.service';
 import { TDengineInsertService } from './services/insert.service';
 import { TDengineQueryService } from './services/query.service';
 import { TDengineSuperTableService } from './services/super-table.service';
+import { TDengineTableService } from './services/table.service';
 import { DatabaseUtil } from './utils/database.util';
 import { FormatUtil } from './utils/format.util';
 import { IricUtil } from './utils/iric.util';
@@ -33,6 +34,7 @@ export class TDengineCoreModule {
       providers: [
         TDengineDatabaseService,
         TDengineSuperTableService,
+        TDengineTableService,
         TDengineQueryService,
         TDengineInsertService,
         IricUtil,
@@ -41,7 +43,7 @@ export class TDengineCoreModule {
         FormatUtil,
         { provide: OPTIONS_PROVIDER, useValue: options }
       ],
-      exports: [TDengineDatabaseService, TDengineSuperTableService, TDengineQueryService, TDengineInsertService]
+      exports: [TDengineDatabaseService, TDengineSuperTableService, TDengineTableService, TDengineQueryService, TDengineInsertService]
     };
   }
 
@@ -67,8 +69,19 @@ export class TDengineCoreModule {
           inject: [OPTIONS_PROVIDER]
         })
       ],
-      providers: [...asyncProviders, TDengineDatabaseService, TDengineSuperTableService, TDengineQueryService, TDengineInsertService, IricUtil, DatabaseUtil, QueryUtil, FormatUtil],
-      exports: [OPTIONS_PROVIDER, TDengineDatabaseService, TDengineSuperTableService, TDengineQueryService, TDengineInsertService]
+      providers: [
+        ...asyncProviders,
+        TDengineDatabaseService,
+        TDengineSuperTableService,
+        TDengineTableService,
+        TDengineQueryService,
+        TDengineInsertService,
+        IricUtil,
+        DatabaseUtil,
+        QueryUtil,
+        FormatUtil
+      ],
+      exports: [OPTIONS_PROVIDER, TDengineDatabaseService, TDengineSuperTableService, TDengineTableService, TDengineQueryService, TDengineInsertService]
     };
   }
 

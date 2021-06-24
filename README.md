@@ -9,10 +9,11 @@
 ### 支持环境
 
 * node >=`14.x`
+* NestJS >= `7.x`
 
 ### 安装
 
-``` shell
+```shell
 $ npm i @lantsang/nestjs-tdengine
 
 or
@@ -23,7 +24,7 @@ $ yarn add @lantsang/nestjs-tdengine  # 推荐使用yarn
 
 #### 同步方式
 
-``` typescript
+```typescript
 import { Module } from '@nestjs/common';
 import { TDengineModule } from '@lantsang/nestjs-tdengine'
 
@@ -41,7 +42,7 @@ export class AppModule { }
 
 #### 异步方式
 
-``` typescript
+```typescript
 import { Module } from '@nestjs/common';
 import { TDengineModule } from '@lantsang/nestjs-tdengine'
 import { ConfigModule } from './modules/config/config.module';
@@ -68,6 +69,6 @@ export class AppModule {}
 
 ## 文档地址
 
-* [私有Gitlab](https://gitlab.lantsang.cn/nestjs-plugins/nestjs-tencent-iot/tree/master/docs)
-* [GitHub](https://github.com/lantsang/nestjs-tencent-iot/tree/master/docs)
-* [Gitee](https://gitee.com/lantsang/nestjs-tencent-iot/tree/master/docs)
+* [私有Gitlab](https://gitlab.lantsang.cn/nestjs-plugins/nestjs-tdengine/tree/master/docs)
+* [GitHub](https://github.com/lantsang/nestjs-tdengine/tree/master/docs)
+* [Gitee](https://gitee.com/lantsang/nestjs-tdengine/tree/master/docs)
