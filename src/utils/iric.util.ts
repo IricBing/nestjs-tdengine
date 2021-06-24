@@ -18,6 +18,18 @@ export class IricUtil {
    */
   convertJSValue(value: JSValueType): SQLValueType {
     if (value === null || value === undefined) return 'null';
-    return typeof value === 'string' ? `'${value}'` : value;
+    return typeof value === 'string' ? `'${this.sqlValueFormat(value)}'` : value;
+  }
+
+  /**
+   * SQl值转义
+   * @param value 原始字符串
+   * @returns 转以后的字符串
+   */
+  private sqlValueFormat(value: string): string {
+    return value
+      .split('')
+      .map((i, index, array) => (i === "'" && array[index - 1] !== '\\' ? "\\'" : i))
+      .join('');
   }
 }

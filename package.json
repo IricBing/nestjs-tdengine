@@ -1,6 +1,6 @@
 {
   "name": "@lantsang/nestjs-tdengine",
-  "version": "0.0.3",
+  "version": "0.0.8",
   "description": "NestJS TDengine 驱动",
   "author": "Iric<iricbing@gmail.com>",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "dayjs": "^1.10.5",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

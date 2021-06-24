@@ -6,6 +6,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "lib": [
+      "ESNext.String"
+    ],
     "target": "es2020",
     "sourceMap": true,
     "outDir": "./dist",
