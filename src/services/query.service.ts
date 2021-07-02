@@ -1,6 +1,7 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import { TDengineResStatus } from '../constants/tdengine.constant';
 import { TDengineErrorWrapper } from '../decorators/error-wrapper.decorator';
+import { QueryCountResponse } from '../interfaces/response/query/query-count.response.interface';
 import { QueryExecResponse } from '../interfaces/response/query/query-exec.response.interface';
 import { TDengineRestfulResponse } from '../interfaces/response/tdengine-restful.response.interface';
 import { QueryUtil } from '../utils/query.util';
@@ -19,5 +20,21 @@ export class TDengineQueryService {
     const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', sql).toPromise();
 
     return { success: data.status === TDengineResStatus.Success, data: this.queryUtil.resolve<T>(data) };
+  }
+
+  /**
+   * 获取符合条件的数据条数
+   * @param database 数据库名称
+   * @param table 表名称（超级表、子表、普通表均可）
+   * @param condition 查询条件
+   * @returns 获取数量sql执行结果
+   */
+  @TDengineErrorWrapper()
+  async count(database: string, table: string, condition: string): Promise<QueryCountResponse> {
+    const sql = `SELECT count(*) FROM ${database}.${table} WHERE ${condition}`;
+    const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', sql).toPromise();
+    const [result] = this.queryUtil.resolve<{ count: number }>(data);
+
+    return { success: data.status === TDengineResStatus.Success, data: result?.count || 0 };
   }
 }
