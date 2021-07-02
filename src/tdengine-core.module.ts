@@ -2,11 +2,13 @@ import { DynamicModule, Global, HttpModule, HttpService, Inject, Module, OnModul
 import { OPTIONS_PROVIDER } from './constants/common.constant';
 import { TDengineModuleAsyncOptions, TDengineModuleOptions, TDengineOptionsFactory } from './interfaces/options.interface';
 import { TDengineDatabaseService } from './services/database.service';
+import { TDengineFindService } from './services/find.service';
 import { TDengineInsertService } from './services/insert.service';
 import { TDengineQueryService } from './services/query.service';
 import { TDengineSuperTableService } from './services/super-table.service';
 import { TDengineTableService } from './services/table.service';
 import { DatabaseUtil } from './utils/database.util';
+import { FindUtil } from './utils/find.util';
 import { FormatUtil } from './utils/format.util';
 import { IricUtil } from './utils/iric.util';
 import { QueryUtil } from './utils/query.util';
@@ -42,14 +44,16 @@ export class TDengineCoreModule implements OnModuleInit {
         TDengineSuperTableService,
         TDengineTableService,
         TDengineQueryService,
+        TDengineFindService,
         TDengineInsertService,
         IricUtil,
         DatabaseUtil,
         QueryUtil,
+        FindUtil,
         FormatUtil,
         { provide: OPTIONS_PROVIDER, useValue: options }
       ],
-      exports: [TDengineDatabaseService, TDengineSuperTableService, TDengineTableService, TDengineQueryService, TDengineInsertService]
+      exports: [TDengineDatabaseService, TDengineSuperTableService, TDengineTableService, TDengineQueryService, TDengineFindService, TDengineInsertService]
     };
   }
 
@@ -81,13 +85,23 @@ export class TDengineCoreModule implements OnModuleInit {
         TDengineSuperTableService,
         TDengineTableService,
         TDengineQueryService,
+        TDengineFindService,
         TDengineInsertService,
         IricUtil,
         DatabaseUtil,
         QueryUtil,
+        FindUtil,
         FormatUtil
       ],
-      exports: [OPTIONS_PROVIDER, TDengineDatabaseService, TDengineSuperTableService, TDengineTableService, TDengineQueryService, TDengineInsertService]
+      exports: [
+        OPTIONS_PROVIDER,
+        TDengineDatabaseService,
+        TDengineSuperTableService,
+        TDengineTableService,
+        TDengineQueryService,
+        TDengineFindService,
+        TDengineInsertService
+      ]
     };
   }
 

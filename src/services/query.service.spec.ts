@@ -38,7 +38,13 @@ describe('TDengineQueryService (async)', () => {
     await superTableService.create(database, stableName, fieldList, tags);
 
     for (const index of [...new Array(10).keys()]) {
-      const { success, data } = await insertService.insertWithSuperTable(database, stableName, 'location_sn_553' + index, ['553' + index], [uuid(), '3456', undefined, 'outRegion', 'enter', 23, 80]);
+      const { success, data } = await insertService.insertWithSuperTable(
+        database,
+        stableName,
+        'location_sn_553' + index,
+        ['553' + index],
+        [uuid(), '3456', undefined, 'outRegion', 'enter', 23, 80]
+      );
       expect(success).toBe(true);
       expect(data.rows).toBe(1);
     }

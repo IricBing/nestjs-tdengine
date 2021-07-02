@@ -25,7 +25,14 @@ export class TDengineInsertService {
   }
 
   @TDengineErrorWrapper()
-  async insertWithSuperTable(database: string, stable: string, table: string, tags: JSValueType[], values: JSValueType[], ts?: Date): Promise<InsertWithSuperTableResponse> {
+  async insertWithSuperTable(
+    database: string,
+    stable: string,
+    table: string,
+    tags: JSValueType[],
+    values: JSValueType[],
+    ts?: Date
+  ): Promise<InsertWithSuperTableResponse> {
     const sql = `
       INSERT INTO ${database}.${table}
       USING ${database}.${stable}

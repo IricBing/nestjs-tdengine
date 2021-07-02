@@ -16,43 +16,10 @@ export class QueryUtil {
     return data.map(raw => {
       const result = {} as T;
       for (const [index, [column, type]] of columnMeta.entries()) {
-        result[this.formatUtil.underlineToSmallHump(column)] = this.getValue(raw[index], type);
+        result[this.formatUtil.underlineToSmallHump(column)] = this.formatUtil.getValue(raw[index], type);
       }
 
       return result;
     });
-  }
-
-  /**
-   * 获取数据值（按照类型转换为Typescript/Javascript的数据类型）
-   * @param value 原始值
-   * @param type 数据类型
-   * @returns 转换后的数据值
-   */
-  private getValue(value: string | number, type: TDengineColumnType): string | number | Date | boolean {
-    switch (type) {
-      case TDengineColumnType.Bool:
-        return !!value;
-      case TDengineColumnType.TinyInt:
-        return value;
-      case TDengineColumnType.SmallInt:
-        return value;
-      case TDengineColumnType.Int:
-        return value;
-      case TDengineColumnType.BigInt:
-        return value;
-      case TDengineColumnType.Float:
-        return value;
-      case TDengineColumnType.Double:
-        return value;
-      case TDengineColumnType.Binary:
-        return value;
-      case TDengineColumnType.Timestamp:
-        return new Date(value);
-      case TDengineColumnType.NChar:
-        return value;
-      default:
-        throw new Error('未知数据类型：' + type);
-    }
   }
 }
