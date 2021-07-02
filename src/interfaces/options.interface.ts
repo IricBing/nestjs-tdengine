@@ -8,6 +8,11 @@ export interface TDengineModuleOptions {
   username: string;
   /** 连接密码 */
   password: string;
+  /**
+   * 是否打印执行sql
+   * @default false
+   */
+  logging?: boolean;
 }
 
 export interface TDengineOptionsFactory {

@@ -9,13 +9,15 @@ import { ConfigService } from './modules/config/services/config.service';
     // TDengineModule.forRoot({
     //   url: 'http://127.0.0.1:6041',
     //   username: 'root',
-    //   password: 'taosdata'
+    //   password: 'taosdata',
+    //   logging: false
     // }),
     TDengineModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         url: configService.tdengine.url,
         username: configService.tdengine.username,
-        password: configService.tdengine.password
+        password: configService.tdengine.password,
+        logging: configService.tdengine.logging
       }),
       inject: [CONFIG_PROVIDER]
     }),

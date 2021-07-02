@@ -1,4 +1,4 @@
-import { DynamicModule, Global, HttpModule, Module, Provider } from '@nestjs/common';
+import { DynamicModule, Global, HttpModule, HttpService, Inject, Module, OnModuleInit, Provider } from '@nestjs/common';
 import { OPTIONS_PROVIDER } from './constants/common.constant';
 import { TDengineModuleAsyncOptions, TDengineModuleOptions, TDengineOptionsFactory } from './interfaces/options.interface';
 import { TDengineDatabaseService } from './services/database.service';
@@ -13,7 +13,13 @@ import { QueryUtil } from './utils/query.util';
 
 @Global()
 @Module({})
-export class TDengineCoreModule {
+export class TDengineCoreModule implements OnModuleInit {
+  constructor(
+    @Inject(OPTIONS_PROVIDER)
+    private readonly options: TDengineModuleOptions,
+    private readonly httpService: HttpService
+  ) {}
+
   /**
    * 同步方式配置
    * @param options 配置信息
@@ -123,5 +129,14 @@ export class TDengineCoreModule {
       useFactory: async (optionsFactory: TDengineOptionsFactory) => await optionsFactory.createMpOptions(),
       inject
     };
+  }
+
+  onModuleInit() {
+    const axiosInstance = this.httpService.axiosRef;
+    axiosInstance.interceptors.request.use(config => {
+      /* eslint-disable-next-line no-console */
+      if (this.options.logging) console.log(config.data);
+      return config;
+    });
   }
 }

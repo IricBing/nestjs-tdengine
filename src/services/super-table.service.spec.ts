@@ -1,9 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { ConfigModule } from '../../test/modules/config/config.module';
-import { CONFIG_PROVIDER } from '../../test/modules/config/constants/config.constant';
-import { ConfigService } from '../../test/modules/config/services/config.service';
-import { TDengineModule } from '../tdengine.module';
+import { AppModule } from '../../test/app.module';
 import { TDengineDatabaseService } from './database.service';
 import { TDengineSuperTableService } from './super-table.service';
 
@@ -14,17 +11,7 @@ describe('TDengineSuperTableService (async)', () => {
 
   beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
-      imports: [
-        TDengineModule.forRootAsync({
-          useFactory: (configService: ConfigService) => ({
-            url: configService.tdengine.url,
-            username: configService.tdengine.username,
-            password: configService.tdengine.password
-          }),
-          inject: [CONFIG_PROVIDER]
-        }),
-        ConfigModule
-      ]
+      imports: [AppModule]
     }).compile();
     app = moduleFixture.createNestApplication();
     databaseService = moduleFixture.get(TDengineDatabaseService);

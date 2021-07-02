@@ -13,7 +13,9 @@ export class ConfigService {
       /** 用户名 */
       username: this.nestConfigService.get<string>('tdengine.username'),
       /** 密码 */
-      password: this.nestConfigService.get<string>('tdengine.password')
+      password: this.nestConfigService.get<string>('tdengine.password'),
+      /** 是否开启日志 */
+      logging: this.nestConfigService.get<boolean>('tdengine.logging')
     };
   }
 }
