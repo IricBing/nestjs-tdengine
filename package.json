@@ -1,6 +1,6 @@
 {
   "name": "@lantsang/nestjs-tdengine",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "NestJS TDengine 驱动",
   "author": "Iric<iricbing@gmail.com>",
   "license": "MIT",
