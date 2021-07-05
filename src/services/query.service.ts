@@ -33,8 +33,9 @@ export class TDengineQueryService {
   async count(database: string, table: string, condition: string): Promise<QueryCountResponse> {
     const sql = `SELECT count(*) FROM ${database}.${table} WHERE ${condition}`;
     const { data } = await this.httpService.post<TDengineRestfulResponse>('/rest/sql', sql).toPromise();
-    const [result] = this.queryUtil.resolve<{ count: number }>(data);
 
-    return { success: data.status === TDengineResStatus.Success, data: result?.count || 0 };
+    const count = this.queryUtil.resolveCount(data);
+
+    return { success: data.status === TDengineResStatus.Success, data: count };
   }
 }

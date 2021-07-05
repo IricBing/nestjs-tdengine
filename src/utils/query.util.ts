@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TDengineColumnType } from '../constants/tdengine.constant';
 import { TDengineRestfulResponse } from '../interfaces/response/tdengine-restful.response.interface';
 import { FormatUtil } from './format.util';
 
@@ -21,5 +20,21 @@ export class QueryUtil {
 
       return result;
     });
+  }
+
+  /**
+   * 解析count方法查询原始数据
+   * @param param0 查询原始数据
+   * @returns 数量
+   */
+  resolveCount({ column_meta: columnMeta, data }: TDengineRestfulResponse): number {
+    const [raw] = data;
+    for (const [index, [column, type]] of columnMeta.entries()) {
+      if (this.formatUtil.underlineToSmallHump(column).startsWith('count')) {
+        return this.formatUtil.getValue(raw[index], type) as number;
+      }
+    }
+
+    return 0;
   }
 }
